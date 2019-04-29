@@ -8,7 +8,8 @@ class Player(Ball):
         self.start = startposition
         self.speed = speed
         
+        
     
-    def update_position(self, vector_mov=(0,0)):
-        vec = [vector_mov[0]*self.speed,vector_mov[1]*self.speed]
+    def update_position(self,dt, vector_mov=(0,0)):
+        vec = [vector_mov[0]*self.speed*dt,vector_mov[1]*self.speed*dt]
         super().update_position(vec)

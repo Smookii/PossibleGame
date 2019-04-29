@@ -23,7 +23,7 @@ class MainGame():
         self.player = Player(color=(255,0,0),speed=1,startposition=data_level["player"]["pos"],width=data_level["player"]["width"],life=3)
         self.ennemies = []
         for e in data_level["ennemis"].values():            
-            self.ennemies.append(Ennemi(color=e["color"],speed=e["speed"],startposition=e["moves"][0].copy(),width=e["width"],moves=e["moves"]))
+            self.ennemies.append(Ennemi(color=e["color"],startposition=e["moves"][0][1].copy(),width=e["width"],moves=e["moves"]))
         
 
     def run_game(self):
@@ -51,7 +51,7 @@ class MainGame():
                         x = 0
                     if e.key == pygame.K_UP or e.key == pygame.K_DOWN:
                         y = 0
-            self.player.update_position((x,y))            
+            self.player.update_position(dt,(x,y))            
             self.player.draw(self.window)
             for e in self.ennemies:
                 e.update_position(dt)
