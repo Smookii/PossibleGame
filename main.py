@@ -58,12 +58,17 @@ class MainGame():
                         x = 0
                     if e.key == pygame.K_UP or e.key == pygame.K_DOWN:
                         y = 0
-            self.player.update_position(dt,(x,y))            
-            self.player.draw(self.window)
             for e in self.ennemies:
                 e.update_position(dt)
                 e.draw(self.window)
 
+            self.player.update_position(dt,(x,y))            
+            self.player.draw(self.window)
+            
+            if self.player.player_touch_ennemis(self.ennemies) <= 0:
+                """print("You die !")
+                return"""
+                pass
 
             pygame.display.flip()
             self.window.blit(self.background, (0, 0))

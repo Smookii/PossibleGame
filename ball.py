@@ -20,9 +20,11 @@ class Ball():
     def draw(self, window):
         pygame.draw.circle(window, self.color, self.position, self.width)
 
-    def get_position(self):
-        return self.position
-        
+
+    def new_position(self, startposition):
+        self.position = startposition
+        self.float_pos = Vector2(startposition)
+
     
     
 
