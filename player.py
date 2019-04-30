@@ -13,6 +13,7 @@ class Player(Ball):
         
     
     def update_position(self,dt, vector_mov=(0,0)):
+        dt = dt/2
         vec = Vector2(vector_mov[0]*self.speed*dt,vector_mov[1]*self.speed*dt)
         if self.player_in_borders(vec):
             super().update_position(vec)
@@ -36,8 +37,8 @@ class Player(Ball):
 
     def player_touch_zones(self, zones):
         for z in zones:
-            if self.position[0] + self.width >= z.rect[0] - z.rect[2]/2 and self.position[0] - self.width <= z.rect[0] + z.rect[2]/2:
-                if self.position[1] + self.width >= z.rect[1]- z.rect[3]/2 and self.position[1] - self.width <= z.rect[1] + z.rect[3]/2:
+            if self.position[0] + self.width >= z.rect[0] and self.position[0] - self.width <= z.rect[0] + z.rect[2]:
+                if self.position[1] + self.width >= z.rect[1] and self.position[1] - self.width <= z.rect[1] + z.rect[3]:
                     return True
         return False
 

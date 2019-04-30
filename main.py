@@ -21,7 +21,7 @@ class MainGame():
         self.endzones = None
         self.level_id = "Level1"
         self.next_level = ""
-
+        self.pause_ennemi = True
         self.run_game()
 
     def initalize_level(self) :
@@ -78,7 +78,8 @@ class MainGame():
                     z.draw(self.window)
 
                 for e in self.ennemies:
-                    e.update_position(dt)
+                    if not self.pause_ennemi:
+                        e.update_position(dt)
                     e.draw(self.window)
 
                 self.player.update_position(dt,(x,y))            

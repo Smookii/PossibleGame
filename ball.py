@@ -5,8 +5,8 @@ class Ball():
     def __init__(self, color, startposition, width):
         self.color = color   
         self.width = width
-        self.position = startposition
         self.float_pos = Vector2(startposition)
+        self.position = [int(self.float_pos[0]),int(self.float_pos[1])]
         
     def __str__(self):
         print(self.color)
