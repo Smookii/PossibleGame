@@ -33,6 +33,14 @@ class Player(Ball):
                     self.death()
         return self.life
 
+
+    def player_touch_zones(self, zones):
+        for z in zones:
+            if self.position[0] + self.width >= z.rect[0] - z.rect[2]/2 and self.position[0] - self.width <= z.rect[0] + z.rect[2]/2:
+                if self.position[1] + self.width >= z.rect[1]- z.rect[3]/2 and self.position[1] - self.width <= z.rect[1] + z.rect[3]/2:
+                    return True
+        return False
+
     def death(self):
         super().new_position(self.start)
         self.life -= 1
