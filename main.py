@@ -3,7 +3,7 @@ from ball import Ball
 from player import Player
 from ennemi import Ennemi
 from levelloader import LevelLoader
-
+from pygame import Vector2
 
 class MainGame():
     def __init__(self, size, fps=30):
@@ -20,10 +20,17 @@ class MainGame():
 
     def initalize_level(self):
         data_level = LevelLoader.loadLevel("Levels/Level1.json")
-        self.player = Player(color=(255,0,0),speed=1,startposition=data_level["player"]["pos"],width=data_level["player"]["width"],life=3)
+        start_vect = Vector2(data_level["player"]["startpos"][0],data_level["player"]["startpos"][1])
+        
+        #Generate player
+        self.player = Player(color=(255,0,0),speed=1,startposition=start_vect,width=data_level["player"]["width"],life=3, window=self.window)
+        
+
+        #Generate list of ennemis
         self.ennemies = []
-        for e in data_level["ennemis"].values():            
-            self.ennemies.append(Ennemi(color=e["color"],startposition=e["moves"][0][1].copy(),width=e["width"],moves=e["moves"]))
+        for e in data_level["ennemis"].values():   
+            start_vect = Vector2(e["startpos"][0],e["startpos"][1])         
+            self.ennemies.append(Ennemi(color=e["color"],startposition=start_vect,width=e["width"],moves=e["moves"]))
         
 
     def run_game(self):
@@ -33,7 +40,7 @@ class MainGame():
         y = 0
         while not end_game:
 
-            dt = self.clock.tick(self.fps)
+            dt = self.clock.tick(120)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     end_game=True 

@@ -1,30 +1,40 @@
 from ball import Ball
+from pygame import Vector2
 
 class Ennemi(Ball):
     def __init__(self, color,startposition, width, moves):
         super().__init__(color=color, startposition=startposition, width=width)
         self.moves = moves
         self.index = 1
-        self.move_vect = self.moves[self.index][0]
-        self.target = self.moves[self.index][1]
+        self.cpt_time = 0
+        self.time = self.moves[self.index]["time"]
+        self.fx = self.moves[self.index]["x"].split(',')
+        self.fy = self.moves[self.index]["y"].split(',')
 
 
     def update_position(self, dt):
-        for i in range(0,2):
-            if self.move_vect[i] > 0:
-                if self.position[i] >= self.target[i]:
-                    self.inc_index()
-            if self.move_vect[i] < 0:
-                if self.position[i] <= self.target[i]:
-                    self.inc_index()                       
-        super().update_position([self.move_vect[0]*dt,self.move_vect[1]*dt])
+        if self.cpt_time >= self.time:  
+            self.cpt_time = 0
+            self.inc_index()
+        self.cpt_time += dt            
+        vect = Vector2(self.compute_f(self.fx),self.compute_f(self.fy))   
+        super().update_position(vect)
+
+
+    def compute_f(self, f):
+        if f[0] == '' or None:
+            return 0
+        if f[0] == 'l':
+            return int(f[1])
+
 
     def inc_index(self):
         self.index += 1
         if self.index >= len(self.moves):
             self.index = 0
-        self.update_move()
+        self.change_move()
     
-    def update_move(self):
-        self.move_vect = self.moves[self.index][0]
-        self.target = self.moves[self.index][1]
+    def change_move(self):
+        self.time = self.moves[self.index]["time"]
+        self.fx = self.moves[self.index]["x"].split(',')
+        self.fy = self.moves[self.index]["y"].split(',')
