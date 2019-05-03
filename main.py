@@ -19,9 +19,9 @@ class MainGame():
         self.player = None
         self.ennemies = None
         self.endzones = None
-        self.level_id = "Level1"
+        self.level_id = "Level3"
         self.next_level = ""
-        self.pause_ennemi = True
+        self.pause_ennemi = False
         self.run_game()
 
     def initalize_level(self) :
@@ -39,7 +39,7 @@ class MainGame():
         self.ennemies = []
         for e in data_level["ennemis"].values():   
             start_vect = Vector2(e["startpos"][0],e["startpos"][1])         
-            self.ennemies.append(Ennemi(color=e["color"],startposition=start_vect,width=e["width"],moves=e["moves"]))
+            self.ennemies.append(Ennemi(color=e["color"],startposition=start_vect,width=e["width"],moves=e["moves"], window=self.window))
 
         #Generate list of ennmis
         self.endzones = []
@@ -55,7 +55,7 @@ class MainGame():
             x = 0
             y = 0
             while not end_level:
-                dt = self.clock.tick(120)
+                dt = self.clock.tick(100)
                 for e in pygame.event.get():
                     if e.type == pygame.QUIT:
                         end_game=True 
@@ -85,12 +85,12 @@ class MainGame():
                 self.player.update_position(dt,(x,y))            
                 self.player.draw(self.window)
                 
-                if self.player.player_touch_ennemis(self.ennemies) <= 0:
+                if self.player.touch_ennemis(self.ennemies) <= 0:
                     """print("You die !")
                     return"""
                     pass
 
-                if self.player.player_touch_zones(self.endzones):
+                if self.player.touch_zones(self.endzones):
                     self.level_id = self.next_level
                     end_level = True
 

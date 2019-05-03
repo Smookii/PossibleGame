@@ -4,30 +4,22 @@ from ball import Ball
 
 class Player(Ball):
     def __init__(self, color, speed, startposition, width, life, window):
-        super().__init__(color=color, startposition=startposition, width=width)        
+        super().__init__(color=color, startposition=startposition, width=width, window=window)        
         self.life = life
         self.start = startposition
         self.speed = speed
-        self.window = window
         
         
     
     def update_position(self,dt, vector_mov=(0,0)):
         dt = dt/2
-        vec = Vector2(vector_mov[0]*self.speed*dt,vector_mov[1]*self.speed*dt)
-        if self.player_in_borders(vec):
-            super().update_position(vec)
+        vect = Vector2(vector_mov[0]*self.speed*dt,vector_mov[1]*self.speed*dt)
+        if super().in_borders(vect):
+            self.float_pos += vect
+            super().update_position()
 
-    def player_in_borders(self, vec):
-        vect_temp = Vector2(self.position)
-        vect_temp += vec
-        if vect_temp[0] - self.width < 0 or vect_temp[0]+self.width > self.window.get_size()[0]:
-            return False
-        if vect_temp[1] - self.width < 0 or vect_temp[1]+self.width > self.window.get_size()[1]:
-            return False
-        return True
 
-    def player_touch_ennemis(self, ennemis):
+    def touch_ennemis(self, ennemis):
         for e in ennemis:
             if self.position[0] + self.width >= e.position[0] - e.width and self.position[0] - self.width <= e.position[0] + e.width:
                 if self.position[1] + self.width >= e.position[1] - e.width and self.position[1] - self.width <= e.position[1] + e.width:
@@ -35,7 +27,7 @@ class Player(Ball):
         return self.life
 
 
-    def player_touch_zones(self, zones):
+    def touch_zones(self, zones):
         for z in zones:
             if self.position[0] + self.width >= z.rect[0] and self.position[0] - self.width <= z.rect[0] + z.rect[2]:
                 if self.position[1] + self.width >= z.rect[1] and self.position[1] - self.width <= z.rect[1] + z.rect[3]:
